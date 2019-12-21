@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import uuid from 'uuid/v1';
+import NewSongForm from './NewSongForm';
 
 const SongList = () => {
   // hooks allows function components to use states
@@ -12,9 +13,9 @@ const SongList = () => {
     { title: 'song 2', id: 2 },
     { title: 'song 3', id: 3 }
   ]);
-  const addSong = () => {
+  const addSong = title => {
     // pass in the new state data which is going to completely replace the old one
-    setSongs([...songs, { title: 'new song', id: uuid() }]);
+    setSongs([...songs, { title, id: uuid() }]);
   };
   return (
     <div className="song-list">
@@ -23,7 +24,7 @@ const SongList = () => {
           return <li key={song.id}>{song.title}</li>;
         })}
       </ul>
-      <button onClick={addSong}>Add song</button>
+      <NewSongForm addSong={addSong} />
     </div>
   );
 };
