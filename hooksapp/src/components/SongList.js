@@ -25,7 +25,7 @@ const SongList = () => {
   // useEffect takes a callback function as parameter, and it will get called
   // when component renders or re-renders caused by the data passed in as
   // second parameter, which is an array
-  // typically it could be used to communicate with database/API endpoints
+  // typically it could be used to communicate with database/API endpoints - BUT, WAIT FOR SUSPENSE - Dec 2019
   useEffect(() => {
     console.log(`useEffect hook ran`, age);
   }, [age]);
