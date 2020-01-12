@@ -12,10 +12,26 @@ const additionStyle = {
   color: 'green'
 };
 
+// Higher Order Component:
+// takes a component as parameter, returns another component
+const makeYellow = BaseComponent => props => {
+  const addYellow = {
+    style: {
+      color: 'yellow'
+    }
+  };
+
+  const newProps = { ...props, ...addYellow };
+
+  return <BaseComponent {...newProps} />;
+};
+
+const YellowNameTag = makeYellow(NameTag);
+
 function App() {
   return (
     <div className="App">
-      <NameTag style={nameStyle}>Peter</NameTag>
+      <YellowNameTag style={nameStyle}>Peter</YellowNameTag>
       <NameTag style={{ ...nameStyle, ...additionStyle }} name="Tom" />
     </div>
   );
