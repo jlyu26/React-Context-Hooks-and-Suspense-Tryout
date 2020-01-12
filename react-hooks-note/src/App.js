@@ -1,4 +1,5 @@
 import React from 'react';
+import NameTag from './components/nameTag';
 
 // styling in JSX: JavaScript Objects with camel attributes
 const nameStyle = {
@@ -14,8 +15,8 @@ const additionStyle = {
 function App() {
   return (
     <div className="App">
-      <div style={nameStyle}>Peter</div>
-      <div style={{ ...nameStyle, ...additionStyle }}>Tom</div>
+      <NameTag style={nameStyle}>Peter</NameTag>
+      <NameTag style={{ ...nameStyle, ...additionStyle }} name="Tom" />
     </div>
   );
 }
