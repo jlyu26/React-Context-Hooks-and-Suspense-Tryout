@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import InfoTag from './components/infoTag';
+import useProfile from './hooks/useProfile';
 
 const initialProfile = {
   name: 'john',
@@ -9,14 +10,9 @@ const initialProfile = {
 };
 
 function App() {
-  const [profile, setProfile] = useState(initialProfile);
-
+  const { profile, removeItem } = useProfile(initialProfile);
   const removeItemHandle = e => {
-    console.log(e.target.name);
-
-    const profileCopy = { ...initialProfile };
-    delete profileCopy[e.target.name];
-    setProfile(profileCopy);
+    removeItem(e.target.name);
   };
 
   return Object.entries(profile).map((item, index) => {
