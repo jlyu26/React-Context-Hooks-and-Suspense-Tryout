@@ -1,38 +1,31 @@
 import React, { useState, useEffect } from 'react';
 
+// Feth data must be after component is loaded
+// so we need useEffect to do that
+
+const initProfile = {
+  followers: null,
+  public_repos: null
+};
+
 function App() {
-  const [growth, setGrowth] = useState(0);
-  const [nirvana, setNirvana] = useState(false);
+  const [profile, setProfile] = useState(initProfile);
 
-  // only called when initialize
+  const getProfile = async () => {
+    const response = await fetch('https://api.github.com/users/jlyu26');
+    const json = await response.json();
+
+    setProfile({
+      followers: json.followers,
+      publicRepos: json.public_repos
+    });
+  };
+
   useEffect(() => {
-    console.log('component mounted');
+    getProfile();
   }, []);
-
-  // run after every completed render, including initial and update
-  useEffect(() => {
-    if (growth >= 100) {
-      setNirvana(true);
-    }
-    console.log('component updated');
-  });
-
-  // only called when `nirvana` updated
-  useEffect(() => {
-    console.log('component should unmount');
-  }, [nirvana]);
-
-  function growHandle() {
-    if (nirvana) {
-      return;
-    }
-    setGrowth(growth + 10);
-  }
   return (
-    <div className="App">
-      <div>{growth}</div>
-      <button onClick={growHandle}>Grow</button>
-    </div>
+    <div className="App">{`followers: ${profile.followers}, repos: ${profile.publicRepos}`}</div>
   );
 }
 
