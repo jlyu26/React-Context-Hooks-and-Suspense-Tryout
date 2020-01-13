@@ -1,25 +1,39 @@
-import React, { useState } from 'react';
-import InfoTag from './components/infoTag';
-import useProfile from './hooks/useProfile';
-
-const initialProfile = {
-  name: 'john',
-  age: 30,
-  address: 'New York, NY',
-  married: true
-};
+import React, { useState, useEffect } from 'react';
 
 function App() {
-  const { profile, removeItem } = useProfile(initialProfile);
-  const removeItemHandle = e => {
-    removeItem(e.target.name);
-  };
+  const [growth, setGrowth] = useState(0);
+  const [nirvana, setNirvana] = useState(false);
 
-  return Object.entries(profile).map((item, index) => {
-    return (
-      <InfoTag key={`${index}.${item[0]}.${item[1]}`} {...{ item }} onClick={removeItemHandle} />
-    );
+  // only called when initialize
+  useEffect(() => {
+    console.log('component mounted');
+  }, []);
+
+  // run after every completed render, including initial and update
+  useEffect(() => {
+    if (growth >= 100) {
+      setNirvana(true);
+    }
+    console.log('component updated');
   });
+
+  // only called when `nirvana` updated
+  useEffect(() => {
+    console.log('component should unmount');
+  }, [nirvana]);
+
+  function growHandle() {
+    if (nirvana) {
+      return;
+    }
+    setGrowth(growth + 10);
+  }
+  return (
+    <div className="App">
+      <div>{growth}</div>
+      <button onClick={growHandle}>Grow</button>
+    </div>
+  );
 }
 
 export default App;
