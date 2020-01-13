@@ -1,40 +1,29 @@
-import React from 'react';
-import NameTag from './components/nameTag';
+import React, { useState } from 'react';
+import InfoTag from './components/infoTag';
 
-// styling in JSX: JavaScript Objects with camel attributes
-const nameStyle = {
-  color: 'red',
-  border: '1px solid gray',
-  paddingTop: '2px'
+const initialProfile = {
+  name: 'john',
+  age: 30,
+  address: 'New York, NY',
+  married: true
 };
-
-const additionStyle = {
-  color: 'green'
-};
-
-// Higher Order Component:
-// takes a component as parameter, returns another component
-const makeYellow = BaseComponent => props => {
-  const addYellow = {
-    style: {
-      color: 'yellow'
-    }
-  };
-
-  const newProps = { ...props, ...addYellow };
-
-  return <BaseComponent {...newProps} />;
-};
-
-const YellowNameTag = makeYellow(NameTag);
 
 function App() {
-  return (
-    <div className="App">
-      <YellowNameTag style={nameStyle}>Peter</YellowNameTag>
-      <NameTag style={{ ...nameStyle, ...additionStyle }} name="Tom" />
-    </div>
-  );
+  const [profile, setProfile] = useState(initialProfile);
+
+  const removeItemHandle = e => {
+    console.log(e.target.name);
+
+    const profileCopy = { ...initialProfile };
+    delete profileCopy[e.target.name];
+    setProfile(profileCopy);
+  };
+
+  return Object.entries(profile).map((item, index) => {
+    return (
+      <InfoTag key={`${index}.${item[0]}.${item[1]}`} {...{ item }} onClick={removeItemHandle} />
+    );
+  });
 }
 
 export default App;
