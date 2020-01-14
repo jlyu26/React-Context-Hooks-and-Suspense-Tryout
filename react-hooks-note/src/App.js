@@ -1,9 +1,14 @@
-import React from 'react';
-import { BrowserRouter, Route, Link, NavLink } from 'react-router-dom';
+import React, { useState } from 'react';
+import { BrowserRouter, Route, NavLink, Redirect } from 'react-router-dom';
 import About from './pages/About';
 
 // Can also use Link, but doesn't have activeClass or activeStype from NavLink
 function App() {
+  const [loggedIn, setLoggedIn] = useState(false);
+  const onClickHandle = () => {
+    setLoggedIn(!loggedIn);
+  };
+
   return (
     <BrowserRouter>
       <div className="App">
@@ -14,11 +19,18 @@ function App() {
             </NavLink>
           </li>
           <li>
-            <NavLink to="/about" exact activeStyle={{ color: 'green' }}>
+            <NavLink to="/about" activeStyle={{ color: 'green' }}>
               About
             </NavLink>
           </li>
+          <li>
+            <NavLink to="/user/john" activeStyle={{ color: 'green' }}>
+              User John
+            </NavLink>
+          </li>
         </ul>
+        {`logged in: ${loggedIn}`}
+        <button onClick={onClickHandle}>{loggedIn ? 'Logout' : 'Login'}</button>
         <Route
           exact
           path="/"
@@ -30,7 +42,7 @@ function App() {
         <Route
           path="/user/:username"
           render={({ match }) => {
-            return <div>welcome {match.params.username}</div>;
+            return loggedIn ? <div>welcome {match.params.username}</div> : <Redirect to="/" />;
           }}
         ></Route>
       </div>
